@@ -1,0 +1,21 @@
+# Builds the public API repository together with this UI.
+# For a side-by-side checkout, add -f docker-compose.local.yml
+services:
+  api:
+    build: https://github.com/ndresdavila/sezzle-calculator-api.git#main
+    environment:
+      PORT: "8080"
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+  web:
+    build: .
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_healthy

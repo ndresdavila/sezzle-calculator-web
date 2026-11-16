@@ -1,0 +1,5 @@
+# Use when sezzle-calculator-api is checked out next to this repository.
+services:
+  api:
+    build:
+      context: ../sezzle-calculator-api
