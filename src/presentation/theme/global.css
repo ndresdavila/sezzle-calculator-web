@@ -35,45 +35,37 @@ button {
 }
 
 .device {
-  width: min(420px, 100%);
-  height: min(860px, calc(100dvh - 48px));
+  width: 292px;
+  height: 560px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding:
-    max(18px, env(safe-area-inset-top))
-    max(18px, env(safe-area-inset-right))
-    max(22px, env(safe-area-inset-bottom))
-    max(18px, env(safe-area-inset-left));
+  gap: 10px;
+  padding: 16px;
   border: 1px solid var(--device-border);
-  border-radius: 42px;
+  border-radius: 32px;
   background: var(--device-background);
   box-shadow: var(--device-shadow);
+  view-transition-name: calculator;
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(calculator),
+::view-transition-new(calculator) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  height: 100%;
+  object-fit: contain;
+  overflow: clip;
 }
 
 .status {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: flex-end;
   min-height: 36px;
   padding: 0 6px;
-  color: var(--status-bar);
-  font-size: 0.92rem;
-  font-weight: 600;
-}
-
-.status__cluster,
-.status__icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.status__icons svg {
-  display: block;
-  height: 13px;
-  width: auto;
 }
 
 .theme-toggle {
@@ -90,38 +82,36 @@ button {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
+  transition: filter 0.12s ease;
 }
 
 .screen {
-  flex: 0 0 auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 168px;
-  padding: 28px 10px 8px;
+  min-height: 0;
+  padding: 4px 6px 2px;
+  overflow: hidden;
 }
 
 .display {
+  width: 100%;
+  min-width: 0;
   text-align: right;
 }
 
 .display__value {
   display: block;
+  width: 100%;
   color: var(--display-primary);
-  font-size: clamp(3rem, 8vw, 4.6rem);
+  font-size: 2.6rem;
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
-  overflow-wrap: anywhere;
-}
-
-.display__value[data-size="md"] {
-  font-size: clamp(2.1rem, 6vw, 3.2rem);
-}
-
-.display__value[data-size="sm"] {
-  font-size: clamp(1.35rem, 4.5vw, 2rem);
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .display__value[data-error],
@@ -133,57 +123,74 @@ button {
   min-height: 1.4em;
   margin: 8px 0 0;
   color: var(--display-muted);
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.01em;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.functions {
+.board {
+  flex: 0 0 auto;
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 22px;
+  flex-direction: column;
+  gap: 8px;
 }
 
+.functions,
 .keypad {
-  flex: 1;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 1fr;
-  gap: 14px;
-  min-height: 0;
+  grid-template-columns: repeat(4, 58px);
+  gap: 8px;
 }
 
 .key {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 58px;
+  height: 58px;
   border: 0;
-  border-radius: 22px;
+  border-radius: 16px;
   background: var(--key-background);
   color: var(--key-text);
   box-shadow: var(--key-shadow);
-  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
-  font-weight: 500;
+  font-size: 1.25rem;
+  font-weight: 600;
   cursor: pointer;
-  min-height: 58px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
 
-.key--accent {
-  color: var(--key-accent);
+.key--wide {
+  grid-column: span 2;
+  width: auto;
 }
 
 .key--function {
-  min-height: 44px;
-  min-width: 74px;
-  border-radius: 16px;
-  font-size: 1.05rem;
+  background: var(--key-function);
+  color: var(--key-function-text);
+  box-shadow: var(--key-function-shadow);
 }
+
+.key--operator {
+  background: var(--key-operator);
+  color: var(--key-operator-text);
+  box-shadow: var(--key-operator-shadow);
+}
+
 
 .key:active:not(:disabled) {
   box-shadow: var(--key-shadow-active);
-  transform: translateY(1px);
+  transform: translateY(3px);
+}
+
+.key--function:active:not(:disabled) {
+  box-shadow: var(--key-function-shadow-active);
+}
+
+.key--operator:active:not(:disabled) {
+  box-shadow: var(--key-operator-shadow-active);
 }
 
 .key:disabled {
@@ -191,11 +198,38 @@ button {
   opacity: 0.72;
 }
 
+@media (hover: hover) {
+  .key:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  :root[data-theme="light"] .key:hover:not(:disabled),
+  :root[data-theme="light"] .theme-toggle:hover {
+    filter: brightness(0.82);
+  }
+
+  :root[data-theme="dark"] .key:hover:not(:disabled),
+  :root[data-theme="dark"] .theme-toggle:hover {
+    filter: brightness(1.35);
+  }
+
+  .key:hover:active:not(:disabled) {
+    transform: translateY(3px);
+    filter: none;
+  }
+}
+
 .key__dot {
-  width: 0.42rem;
-  height: 0.42rem;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: currentColor;
+}
+
+.key__glyph,
+.icon {
+  width: 22px;
+  height: 22px;
 }
 
 .key:focus-visible,
@@ -204,14 +238,9 @@ button {
   outline-offset: 3px;
 }
 
-.icon {
-  width: 1.45rem;
-  height: 1.45rem;
-}
-
 .icon--small {
-  width: 1rem;
-  height: 1rem;
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 .sr-only {
@@ -226,76 +255,58 @@ button {
   border: 0;
 }
 
-@media (max-width: 680px) and (orientation: portrait) {
-  .app-shell {
-    padding: 0;
-  }
-
-  .device {
-    width: 100%;
-    height: 100dvh;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
+:root[data-orientation="landscape"] .device {
+  width: 428px;
+  height: 408px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    "status screen"
+    "board board";
+  column-gap: 16px;
+  align-items: start;
 }
 
-@media (min-width: 681px) and (max-width: 1100px) and (orientation: portrait) {
-  .device {
-    width: min(560px, 88vw);
-    height: min(980px, calc(100dvh - 36px));
-    border-radius: 48px;
-  }
+:root[data-orientation="landscape"] .status {
+  grid-area: status;
+  min-height: 0;
+  padding: 0;
 }
 
-@media (orientation: landscape) and (max-height: 520px) {
-  .app-shell {
-    padding: 0;
-    place-items: stretch;
-  }
-
-  .device {
-    width: 100%;
-    height: 100dvh;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    grid-template-areas:
-      "status status"
-      "screen keypad";
-    gap: 8px;
-  }
-
-  .status { grid-area: status; }
-  .screen { grid-area: screen; min-height: 0; justify-content: center; }
-  .keypad { grid-area: keypad; gap: 8px; }
-  .key { min-height: 0; border-radius: 16px; }
-  .functions { margin-top: 10px; }
-  .display__value { font-size: clamp(2.2rem, 8vh, 3.4rem); }
+:root[data-orientation="landscape"] .screen {
+  grid-area: screen;
+  min-width: 0;
+  padding: 0;
+  justify-content: flex-start;
 }
 
-@media (orientation: landscape) and (min-width: 700px) and (max-width: 1400px) and (min-height: 521px) and (max-height: 1100px) {
-  .device {
-    width: min(980px, 96vw);
-    height: min(640px, calc(100dvh - 40px));
-    display: grid;
-    grid-template-columns: minmax(220px, 0.82fr) minmax(0, 1.2fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    grid-template-areas:
-      "status status"
-      "screen keypad";
-    border-radius: 36px;
-  }
+:root[data-orientation="landscape"] .board {
+  grid-area: board;
+  align-self: end;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  align-items: end;
+  gap: 16px;
+}
 
-  .status { grid-area: status; }
-  .screen { grid-area: screen; min-height: 0; justify-content: center; }
-  .keypad { grid-area: keypad; }
+:root[data-orientation="landscape"] .functions {
+  grid-template-columns: repeat(2, 58px);
+  grid-template-rows: repeat(3, 58px);
+}
+
+:root[data-orientation="landscape"] .functions .key--wide {
+  grid-column: auto;
+  width: 58px;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .device {
+    transition: none;
+  }
+
+  .key:hover:not(:disabled),
   .key:active:not(:disabled) {
     transform: none;
   }

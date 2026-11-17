@@ -28,7 +28,7 @@ flowchart LR
 
 `reduce` stores tokens and the number currently being typed. `expressionToEvaluate` turns that state into the string the API expects, or `null` when the input is incomplete. `mainDisplay` and `expressionLine` are pure projections.
 
-The hook is the only place that calls `evaluate`. Square root sends `sqrt(n)`. Equals sends the full expression. A failure becomes an error action with the API message.
+The hook is the only place that calls `evaluate`. Square root sends `sqrt(n)`. Equals sends the full expression. A failure becomes an error action with the API message and code. `OVERFLOW` and `UNDERFLOW` are shown as those words. Any other failure is shown as Error, with the sentence on the expression line. `installOrientation` in `main.tsx` sets `data-orientation` and morphs the card when the window turns.
 
 ## Adding a feature
 

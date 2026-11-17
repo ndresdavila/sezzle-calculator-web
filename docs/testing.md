@@ -26,7 +26,7 @@ The text report prints in the terminal. HTML is written to `coverage/index.html`
 
 | | Statements | Branches | Functions | Lines |
 | --- | --- | --- | --- | --- |
-| Whole `src` tree | 85.5% | 70.9% | 92.5% | 85.5% |
+| Whole `src` tree | 87.7% | 72.6% | 90.2% | 87.7% |
 
 The domain module and the HTTP adapter are the numbers that matter for behavior. Presentation files are mostly covered through the screen test; a few key handlers are only exercised by the domain tests. Regenerate the table with `npm run test:coverage` after a change.
 
@@ -34,7 +34,8 @@ The domain module and the HTTP adapter are the numbers that matter for behavior.
 
 | Area | Test |
 | --- | --- |
-| Expression editing | `src/domain/calculator.test.ts` builds `346+74*24`, percent, sign, backspace, and clear |
+| Expression editing | `src/domain/calculator.test.ts` builds `346+74*24`, percent, sign, backspace, clear, and the Overflow and Underflow labels |
+| Display range | `src/presentation/displayRange.test.ts` labels a huge or tiny result, for both signs |
 | HTTP adapter | success, API error code, and a network failure |
 | Theme | both modes expose the same tokens, every token is a CSS variable, and no component hardcodes a color |
 | Screen | clicking the reference expression shows `2122`, division by zero shows the API message, keyboard `2+2` works, and the theme toggle switches the document |

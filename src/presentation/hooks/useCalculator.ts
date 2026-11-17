@@ -60,7 +60,12 @@ export function useCalculator(client: CalculatorClient) {
         const value = await client.evaluate(expression);
         dispatch({ type: "result", value, expression });
       } catch (error) {
-        dispatch({ type: "error", message: messageFrom(error), expression });
+        dispatch({
+          type: "error",
+          message: messageFrom(error),
+          code: codeFrom(error),
+          expression,
+        });
       }
     });
   }, [client, dispatch, guard]);
@@ -76,7 +81,12 @@ export function useCalculator(client: CalculatorClient) {
         const value = await client.evaluate(expression);
         dispatch({ type: "replace", value, expression });
       } catch (error) {
-        dispatch({ type: "error", message: messageFrom(error), expression });
+        dispatch({
+          type: "error",
+          message: messageFrom(error),
+          code: codeFrom(error),
+          expression,
+        });
       }
     });
   }, [client, dispatch, guard]);
@@ -118,4 +128,11 @@ function messageFrom(error: unknown): string {
     return error.message;
   }
   return "Cannot reach the calculator service";
+}
+
+function codeFrom(error: unknown): string | undefined {
+  if (error instanceof CalculatorError) {
+    return error.code;
+  }
+  return undefined;
 }

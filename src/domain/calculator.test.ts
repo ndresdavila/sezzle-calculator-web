@@ -96,6 +96,20 @@ describe("calculator input", () => {
     });
     expect(mainDisplay(failed)).toBe("Error");
     expect(expressionLine(failed)).toBe("Cannot divide by zero");
+    const overflow = reduce(initialState(), {
+      type: "error",
+      message: "The result is too large to represent",
+      code: "OVERFLOW",
+      expression: "2^999",
+    });
+    const underflow = reduce(initialState(), {
+      type: "error",
+      message: "The result is too small to represent",
+      code: "UNDERFLOW",
+      expression: "2^-999",
+    });
+    expect(mainDisplay(overflow)).toBe("Overflow");
+    expect(mainDisplay(underflow)).toBe("Underflow");
     expect(mainDisplay(reduce(failed, { type: "backspace" }))).toBe("0");
     expect(mainDisplay(press("c", press("99")))).toBe("0");
   });

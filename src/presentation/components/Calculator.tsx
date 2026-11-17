@@ -68,26 +68,6 @@ export function Calculator({ client }: { client: CalculatorClient }) {
         <StatusBar />
         <div className="screen">
           <Display value={calculator.value} expression={calculator.expression} error={calculator.error} />
-          <div className="functions">
-            <button
-              type="button"
-              className="key key--accent key--function"
-              aria-label="Square root"
-              disabled={calculator.pending}
-              onClick={() => void calculator.squareRoot()}
-            >
-              √
-            </button>
-            <button
-              type="button"
-              className="key key--accent key--function"
-              aria-label="Power"
-              disabled={calculator.pending}
-              onClick={() => calculator.operator("^")}
-            >
-              xʸ
-            </button>
-          </div>
         </div>
         <Keypad
           disabled={calculator.pending}
@@ -99,6 +79,7 @@ export function Calculator({ client }: { client: CalculatorClient }) {
           onPercent={calculator.percent}
           onBackspace={calculator.backspace}
           onEquals={() => void calculator.equals()}
+          onSquareRoot={() => void calculator.squareRoot()}
         />
       </section>
     </div>

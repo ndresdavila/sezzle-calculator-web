@@ -6,29 +6,28 @@ The reference is a rounded calculator on a soft blue field: a large result, the 
 
 | Viewport | What you see |
 | --- | --- |
-| Desktop | Upright card, about 420 by 860, centered on the page gradient |
-| Phone portrait, under 680px | The card becomes the screen. No outer margin, no fake bezel fighting the OS chrome |
-| Tablet portrait | A larger upright card, up to 560px wide |
-| Phone landscape, height under 520px | Full-screen horizontal layout. The result sits on the left and the keypad on the right |
-| Tablet landscape, 700 to 1400px wide | The same side-by-side layout inside a rounded card |
+| Portrait | Fixed upright card, 292 by 560, centered. The page background stays visible around it |
+| Landscape | Fixed horizontal card, 428 by 408. The theme control sits to the left of the result. Functions sit on the left and the common keys on the right. Keys keep the same size |
 
-Safe-area insets pad the card on devices with a notch. Keys stay at least a comfortable tap target in portrait and shrink to share a short landscape height. A long result steps down through three font sizes instead of overflowing the card.
+The card does not stretch with the window, so the page color stays visible around it. The card has a short lower edge in the same color family as its face, so it reads as a thin slab. Turning the window between portrait and landscape morphs the card instead of jumping.
+
+A long result stays on one line. The type shrinks until it fits beside the theme control, and the expression underneath is a single ellipsized line. A result past the numeric range shows Overflow or Underflow, for both positive and negative values. Hover darkens a key in light mode and lightens it in dark mode.
 
 ## Keys
 
-The main grid matches the reference:
+The result stays above the keys. In portrait the extra functions are their own band. In landscape that band moves to the left and the everyday keypad stays on the right.
 
 ```text
-C    +/−   %    ÷
-7    8     9    ×
-4    5     6    −
-1    2     3    +
-0    .     ⌫    =
+√    xʸ    +/−   %
+C         ⌫
+
+7    8     9    ÷
+4    5     6    ×
+1    2     3    −
+0    .     +    =
 ```
 
-`√` and `xʸ` sit above the grid as smaller keys. They are the optional power and square-root operations, kept off the main grid so the reference layout stays intact.
-
-The top row and the right column use the accent color of the active theme. Number keys use the neutral text color. The theme toggle reads "Dark mode" or "Light mode" and describes the mode it will switch to.
+Number keys use the neutral surface. `√`, `xʸ`, `+/−`, `%`, clear, and backspace use the quieter function color. Divide, multiply, subtract, add, and equals use the stronger operator color. Both colors come from the theme tokens. The theme toggle reads "Dark mode" or "Light mode" and describes the mode it will switch to.
 
 ## Keyboard
 

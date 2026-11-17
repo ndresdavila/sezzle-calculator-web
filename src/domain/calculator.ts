@@ -19,6 +19,7 @@ export interface CalculatorState {
   result: string | null;
   expression: string | null;
   error: string | null;
+  errorCode: string | null;
 }
 
 export type CalculatorAction =
@@ -30,7 +31,7 @@ export type CalculatorAction =
   | { type: "clear" }
   | { type: "backspace" }
   | { type: "result"; value: string; expression: string }
-  | { type: "error"; message: string; expression: string }
+  | { type: "error"; message: string; code?: string; expression: string }
   | { type: "replace"; value: string; expression: string };
 
 const completeNumber = /^-?\d+(\.\d+)?%*$/;
@@ -44,6 +45,7 @@ export function initialState(): CalculatorState {
     result: null,
     expression: null,
     error: null,
+    errorCode: null,
   };
 }
 
@@ -71,12 +73,14 @@ export function reduce(state: CalculatorState, action: CalculatorAction): Calcul
         result: action.value,
         expression: action.expression,
         error: null,
+        errorCode: null,
       };
     case "error":
       return {
         ...state,
         justEvaluated: false,
         error: action.message,
+        errorCode: action.code ?? null,
         expression: action.expression,
       };
     case "replace":
@@ -122,6 +126,12 @@ export function unaryOperand(state: CalculatorState): string | null {
 
 export function mainDisplay(state: CalculatorState): string {
   if (state.error) {
+    if (state.errorCode === "OVERFLOW") {
+      return "Overflow";
+    }
+    if (state.errorCode === "UNDERFLOW") {
+      return "Underflow";
+    }
     return "Error";
   }
   if (state.current === "-") {
@@ -193,6 +203,7 @@ function pushOperator(state: CalculatorState, operator: Operator): CalculatorSta
       result: null,
       expression: null,
       error: null,
+      errorCode: null,
     };
   }
   const operand = canonicalOperand(state.current);
@@ -288,6 +299,7 @@ function replaceOperand(state: CalculatorState, value: string, expression: strin
       result: value,
       expression,
       error: null,
+      errorCode: null,
     };
   }
   return {

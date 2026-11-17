@@ -66,6 +66,9 @@ docker compose up --build
 - `200 + 10 %` is sent as `200+10%`. The API treats that as 220.
 - Sign toggle and backspace edit the text. They are not requests.
 - Colors, shadows, and focus rings exist only in `tokens.ts`. CSS uses `var(--...)`.
-- Portrait is a phone card. A short landscape viewport puts the display beside the keypad. A tablet landscape window does the same inside a wider card. A desktop monitor keeps the upright card from the reference.
+- The calculator is a fixed card: 292 by 560 upright, 428 by 408 horizontal. The page background stays visible around it. Turning the window morphs the card.
+- In landscape the theme control sits to the left of the result. Extra functions sit to the left of the common keys. Keys stay the same size.
+- A long result stays on one line and the type shrinks to fit. Past the numeric range the screen says Overflow or Underflow, for both signs.
+- Hover darkens a key in light mode and lightens it in dark mode. The card has a short lower edge in the same color family as its face.
 
 Keyboard: digits, `+ - * / ^ %`, Enter, Backspace, Escape, and `s` for square root.

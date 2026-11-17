@@ -25,7 +25,7 @@ Pressing `3 4 6 + 7 4 × 2 4 =` renders `2122` returned by `POST /api/v1/evaluat
 
 - Keys: clear, sign, percent, divide, digits, multiply, subtract, add, decimal, backspace, equals.
 - Optional keys, visually secondary: square root and power.
-- Show the running expression and the result. Show API error messages. Clear recovers.
+- Show the running expression and the result on one line each. Shrink the result until it fits. If it cannot fit, or the API rejects the magnitude, show Overflow or Underflow for both signs. Show other API error messages. Clear recovers.
 - Keyboard support for the same actions.
 - Light and dark toggle, persisted in `localStorage`, defaulting to the system preference.
 - Call the API for arithmetic. Do not implement addition in the client.
@@ -35,7 +35,7 @@ Pressing `3 4 6 + 7 4 × 2 4 =` renders `2122` returned by `POST /api/v1/evaluat
 - Hexagonal client: pure domain state machine, `CalculatorClient` port, `fetch` adapter, React presentation.
 - Every color and colored shadow is a constant on `ThemeTokens`. CSS uses variables generated from that object.
 - A test fails if presentation code hardcodes a color.
-- Responsive layout for phone portrait, phone landscape, tablet portrait, tablet landscape, and a desktop card.
+- Two fixed cards, centered on a contrasting page: 292 by 560 portrait and 428 by 408 landscape. Do not stretch the card to the viewport. Landscape puts the theme control to the left of the result, and the extra functions to the left of the common keys. Morph between the two orientations.
 - Unit tests for the state machine, the HTTP client, the theme, and the main interaction.
 - Vite, TypeScript strict, React.
 - Dockerfile that serves the build behind nginx and proxies `/api`.
@@ -65,7 +65,8 @@ The component receives the client as a prop so tests can substitute it.
 
 ## Testing
 
-- Domain: the reference expression, operator replacement, percent, sign, backspace, clear, and square-root operand selection.
+- Domain: the reference expression, operator replacement, percent, sign, backspace, clear, square-root operand selection, and the Overflow and Underflow labels.
+- Display range: a huge or tiny result, positive or negative, is labeled Overflow or Underflow.
 - HTTP: a 200 result, a 422 body, and a thrown network error.
 - Theme: identical token keys, variables applied on the document, every variable used in CSS, no color literals outside `tokens.ts`.
 - UI: click through to `2122`, division by zero, keyboard `2+2`, theme toggle.
@@ -76,7 +77,8 @@ The component receives the client as a prop so tests can substitute it.
 - `npm test` and `npm run build` pass.
 - With the API running, the reference expression shows 2122.
 - Light and dark are visibly different and both come from `tokens.ts`.
-- Phone landscape shows the keypad beside the display.
+- Landscape shows a 428 by 408 card, with the theme control beside the result and the functions beside the common keys.
+- A result that cannot fit on one line, or that the API rejects as too large or too close to zero, shows Overflow or Underflow.
 - `docker compose up --build` from this repo, with the API available, serves the UI on port 3000.
 
 ## Deliverables
@@ -89,5 +91,5 @@ The component receives the client as a prop so tests can substitute it.
 ## Out of scope
 
 - Reimplementing decimal arithmetic in TypeScript.
-- Animation beyond a pressed key.
+- A calculation history.
 - Internationalization of the keypad.

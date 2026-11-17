@@ -14,9 +14,11 @@ Pressing `%` appends `%` instead of asking the API for `n / 100` immediately. Th
 
 A dark mode that is a handful of overrides drifts. Each theme is a full `ThemeTokens` object. Components never see a color. The guarantee is a test, not a convention: hardcoded colors outside `tokens.ts` fail the suite, and every token must appear as a CSS variable.
 
-## Responsive means a different composition, not a squeezed phone
+## A fixed card, not a stretched phone
 
-A landscape phone does not have room for the upright stack. The layout becomes two columns. A desktop window is tall enough for the reference card, so it stays upright instead of stretching the keypad across a monitor. Tablet portrait grows the card. Tablet landscape uses the two-column card.
+The card has two sizes and does not grow with the window: 292 by 560 upright, and 428 by 408 horizontal. Portrait stacks the extra functions above the common keypad. Landscape keeps the result on top, with the theme control to its left so the two never overlap, and moves the extra functions to the left of the common keys. Keys stay 58 pixels in both orientations. Changing orientation morphs the card instead of swapping layouts in one frame.
+
+A result stays on one line. The type shrinks until it fits. If it still does not fit, or the API rejects the magnitude, the screen says Overflow or Underflow. Sign does not change the word: a huge negative is overflow, and a tiny negative is underflow.
 
 ## Fake client in UI tests
 

@@ -4,10 +4,12 @@ import "@fontsource/manrope/600.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./presentation/App";
+import { installOrientation } from "./presentation/orientation";
 import { applyTheme, readInitialTheme } from "./presentation/theme/applyTheme";
 import "./presentation/theme/global.css";
 
 applyTheme(readInitialTheme());
+installOrientation();
 
 const root = document.getElementById("root");
 if (!root) {

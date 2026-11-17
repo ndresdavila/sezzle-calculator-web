@@ -12,7 +12,9 @@ displayPrimary: "#2F80ED",
 
 `applyTheme` copies every token onto `document.documentElement` as a CSS variable. `displayPrimary` becomes `--display-primary`. Global CSS is only allowed to read those variables. A unit test fails if a presentation file introduces a hex color, `rgb()`, or `hsl()`, and it fails if a token is missing from the stylesheet.
 
-Shadows live in the same map because a shadow is a color. Changing `keyShadow` updates the resting key and the pressed key together.
+Shadows live in the same map because a shadow is a color. Changing `keyShadow` updates the resting key and the pressed key together. `deviceShadow` is the short lower edge of the card. Keep that edge close to `deviceBackground` so it reads as the same material.
+
+Hover does not add a color. Light mode darkens the key with `brightness(0.82)`. Dark mode lightens it with `brightness(1.35)`. The key also lifts two pixels, then sinks when pressed.
 
 ## What is not a theme token
 
